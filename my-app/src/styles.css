@@ -7,58 +7,115 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #f4f4f4;
+    background-color: #7e7e7e;
 }
 
 header {
-    background-color: #4CAF50;
+    background-color: #3a3a3a;
     width: 100%;
     padding: 1em;
     text-align: center;
-    color: white;
+    color: rgb(255, 255, 255);
     position: fixed;
     top: 0;
     left: 0;
     z-index: 700;
 }
-
+.hover-pointer:hover{
+    cursor: pointer;
+}
 .container {
     margin-top: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #fff;
+    background-color: #353535;
     padding: 50px 50px;
     border-radius: 50px;
 }
-
+.action-wraper{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 40px;
+}
 #drop-area {
-    border: 2px dashed #4CAF50;
-    border-radius: 10px;
-    padding: 2em;
+    border: 2px dashed white;
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100px;
+    min-height: 100px;
+    padding: 0;
+  }
+  
+  #drop-area input[type="file"] {
+    display: none;
+  }
+  
+  #uploaded-audio {
+    margin: 20px 0;
     text-align: center;
-    margin: 1em;
+  }
+  
+  .upload-arrow {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 35px;
+    left: 30px;
+  }
+  
+  .upload-base {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
     background-color: #fff;
-    cursor: pointer;
-}
-
-#drop-area.highlight {
-    background-color: #e0ffe0;
-}
-
+  }
+  
+  .upload-arrow::before {
+    content: '';
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 14px;
+    height: 14px;
+    background-color: #fff;
+  }
+  
+  .upload-arrow::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 13px;
+    width: 14px;
+    height: 34px;
+    background-color: #ffffff;
+  }
 button, .button {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #ebebeb;
+    color: black;
     padding: 0.5em 1em;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 1em;
+    transition: 0.7s;
 }
 
 button:hover, .button:hover {
-    background-color: #45a049;
+    background-color: #000000;
+    color: #fff;
+    transition: 0.7s;
 }
 
 #uploaded-audio {
@@ -90,9 +147,28 @@ button:hover, .button:hover {
     z-index: 9999;
 }
 
+.templateDescribt{
+    font-size: 20px;
+  font-family: sans-serif;
+  background: linear-gradient(to right, #564be4, #b94be4, #e44b4b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+.templateselector{
+    margin-left: 10px;
+    border-radius: 10px;
+    padding: 2px;
+    color: #ffffff;
+    background-color: #303030;
+}
+.templateselectoractive{
+    border-radius: 10px;
+}
+
 #loading-indicator {
     text-align: center;
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 .spinner {
@@ -100,11 +176,14 @@ button:hover, .button:hover {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border-left-color: #4CAF50;
+    border-left-color: #ffffff;
     animation: spin 1s ease infinite;
     display: inline-block;
     margin-left: 10px;
 }
+
+
+
 
 @keyframes spin {
     0% {
@@ -118,3 +197,139 @@ button:hover, .button:hover {
 body.loading *:not(#loading-overlay, #loading-overlay *) {
     opacity: 0.5;
 }
+
+
+#status{
+    display: none;
+}
+
+
+
+
+
+.content {
+    display: flex;
+    align-items: center;
+    
+  }
+  
+  .mic-checkbox {
+    display: none;
+  }
+  
+  .mic-checkbox:checked + .mic-button {
+    transform: rotateY(180deg);
+  }
+  
+  .mic-checkbox:checked + .mic-button span {
+    display: none;
+  }
+  
+  .button-container {
+    perspective: 500px;
+    -moz-perspective: 500px;
+    -webkit-perspective: 500px;
+  }
+  
+  .mic-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    transition: transform 0.4s;
+    border: 2px solid white;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    position: relative;
+  }
+  
+  .button-message, .mic {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+  }
+  
+  .button-message {
+    position: absolute;
+    width: 50px;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    line-height: 20px;
+    z-index: 2;
+    transform: rotateY(0deg);
+    pointer-events: none;
+    left: 23px;
+    top: 20px;
+  }
+  
+  .mic-button-loader {
+    position: absolute;
+    height: 102px;
+    width: 100px;
+    background-color: transparent;
+    transform: rotateY(180deg);
+    top: -31px;
+    left: -50px;
+  }
+  
+  .mic-checkbox:checked + .mic-button > .mic > .mic-button-loader {
+    border-top: 3px solid #000000; /* Green color for the loader */
+    border-radius: 100%;
+    animation: borderLoader 1.3s 0.2s ease-in-out infinite; 
+  }
+  
+  .mic {
+    position: relative;
+    top: -11px;
+    border: 10px solid white;
+    height: 20px;
+    width: 0;
+    border-radius: 10px;
+    transform: rotateY(180deg);
+  }
+  
+  .mic:after, .mic:before, .mic-base {
+    position: absolute;
+  }
+  
+  .mic:after {
+    content: "";
+    top: 7px;
+    left: -17px;
+    height: 26px;
+    width: 26px;
+    background-color: transparent;
+    border: 4px solid rgb(255, 255, 255);
+    border-bottom-left-radius: 110px;
+    border-bottom-right-radius: 110px;
+    border-top: 0;
+  
+  }
+  
+  .mic:before {
+    content: "";
+    top: 33px;
+    left: -2px;
+    border-bottom: 18px solid white;
+    border-left: 2px solid white;
+    border-right: 2px solid white;
+  }
+  
+  .mic-base {
+    top: 46px;
+    left: -10px;
+    border-bottom: 5px solid white;
+    border-left: 10px solid white;
+    border-right: 10px solid white;
+  }
+  
+  @property --p {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }

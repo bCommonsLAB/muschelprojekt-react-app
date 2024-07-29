@@ -9,13 +9,18 @@ const DropArea: React.FC<DropAreaProps> = ({ onFileChange }) => {
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-        const file = event.dataTransfer.files[0];
-        onFileChange(file);
+        if (event.dataTransfer.files && event.dataTransfer.files.length > 0) {
+            const file = event.dataTransfer.files[0];
+            onFileChange(file);
+            event.dataTransfer.clearData();
+        }
     };
 
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files![0];
-        onFileChange(file);
+        if (event.target.files && event.target.files.length > 0) {
+            const file = event.target.files[0];
+            onFileChange(file);
+        }
     };
 
     return (
@@ -24,11 +29,15 @@ const DropArea: React.FC<DropAreaProps> = ({ onFileChange }) => {
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
+            className='hover-pointer'
         >
-            <p>Ziehen Sie Ihre Audiodatei hierher oder klicken Sie, um eine Datei auszuwählen</p>
+            <p>
+            <div className='upload-arrow'>
+                    <div className="upload-base"></div>
+                </div>
+            </p>
             <input
                 type="file"
-                id="fileElem"
                 accept="audio/*"
                 ref={fileInputRef}
                 onChange={handleFileSelect}

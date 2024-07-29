@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DropArea from './components/DropArea';
+import MicrophoneRecorder from './components/Microphone';
 import AudioPlayer from './components/AudioPlayer';
 import TranscriptionOutput from './components/TranscriptionOutput';
 import MarkdownViewer from './components/MarkdownViewer';
@@ -9,7 +10,7 @@ import { fetchTemplates, transcribeAudio } from './api/api';
 const App: React.FC = () => {
     const [templates, setTemplates] = useState<string[]>([]);
     const [selectedTemplate, setSelectedTemplate] = useState<string>('');
-    const [audioFile, setAudioFile] = useState<File | null>(null);
+    const [audioFile, setAudioFile] = useState<Blob | File | null>(null);
     const [transcription, setTranscription] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [markdown, setMarkdown] = useState<string>('');
@@ -23,11 +24,13 @@ const App: React.FC = () => {
         setTemplates(templates);
     };
 
-    const handleFileChange = async (file: File) => {
-        setAudioFile(file);
-        if (file && selectedTemplate) {
+    const handleFileChange = async (file: Blob) => {
+        const audioFile = file instanceof File ? file : convertBlobToFile(file, 'audio.mp3', 'audio/mp3');
+        setAudioFile(audioFile);
+
+        if (audioFile && selectedTemplate) {
             setLoading(true);
-            const response = await transcribeAudio(file, selectedTemplate);
+            const response = await transcribeAudio(audioFile, selectedTemplate);
             setLoading(false);
             if (response.error) {
                 setTranscription(`Fehler bei der Transkription: ${response.error}`);
@@ -47,10 +50,13 @@ const App: React.FC = () => {
             <header>
                 <h1>Audio Transkription</h1>
             </header>
-            <DropArea onFileChange={handleFileChange} />
+            <div className='action-wraper'>
+                <MicrophoneRecorder onFileChange={handleFileChange} />
+                <DropArea onFileChange={handleFileChange} />
+            </div>
             <div>
-                <label htmlFor="template-select">Wählen Sie ein Template:</label>
-                <select id="template-select" value={selectedTemplate} onChange={handleTemplateChange}>
+                <label htmlFor="template-select" className='templateDescribt'>Wählen Sie ein Template:</label>
+                <select id="template-select" className='templateselector' value={selectedTemplate} onChange={handleTemplateChange}>
                     <option value="">--Bitte wählen--</option>
                     {templates.map(template => (
                         <option key={template} value={template}>{template}</option>
@@ -66,6 +72,10 @@ const App: React.FC = () => {
             {loading && <LoadingOverlay />}
         </div>
     );
+};
+
+const convertBlobToFile = (blob: Blob, filename: string, mimeType: string): File => {
+    return new File([blob], filename, { type: mimeType });
 };
 
 const downloadMarkdown = (content: string) => {

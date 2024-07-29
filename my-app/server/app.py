@@ -8,9 +8,9 @@ import json
 app = Flask(__name__)
 CORS(app)
 
-openai.api_key = 'your-open-ai-key'  # Ersetzen Sie dies durch Ihren tatsächlichen API-Schlüssel
+openai.api_key = 'sk-None-rz8HvNy0CzVOLXqVRYSNT3BlbkFJoLUqqj31emVV7W4a7EU3'  # Ersetzen Sie dies durch Ihren tatsächlichen API-Schlüssel
 
-TEMPLATE_DIR = '../mktemplates/'  # Verzeichnis für die Templates
+TEMPLATE_DIR = 'C:\git\muschelprojekt-react-app\mktemplates'  # Verzeichnis für die Templates
 SUPPORTED_FORMATS = ['flac', 'm4a', 'mp3', 'mp4', 'mpeg', 'mpga', 'oga', 'ogg', 'wav', 'webm']
 
 @app.route('/templates', methods=['GET'])

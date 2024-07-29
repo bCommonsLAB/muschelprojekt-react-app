@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface AudioPlayerProps {
-    file: File;
+    file: Blob | File;
 }
 
 const AudioPlayer: React.FC<AudioPlayerProps> = ({ file }) => {
