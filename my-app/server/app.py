@@ -4,11 +4,17 @@ import openai
 import os
 import tempfile
 import json
+from pathlib import Path
+
+# Load configuration from config.json
+config_path = Path(__file__).parent / "../config/config.json"
+with open(config_path, 'r') as config_file:
+    config = json.load(config_file)
 
 app = Flask(__name__)
 CORS(app)
 
-openai.api_key = 'sk-None-rz8HvNy0CzVOLXqVRYSNT3BlbkFJoLUqqj31emVV7W4a7EU3'  # Ersetzen Sie dies durch Ihren tatsächlichen API-Schlüssel
+openai.api_key = openai.api_key = config["openai-api-key"] # Ersetzen Sie dies durch Ihren tatsächlichen API-Schlüssel
 
 TEMPLATE_DIR = 'C:\git\muschelprojekt-react-app\mktemplates'  # Verzeichnis für die Templates
 SUPPORTED_FORMATS = ['flac', 'm4a', 'mp3', 'mp4', 'mpeg', 'mpga', 'oga', 'ogg', 'wav', 'webm']
@@ -70,7 +76,7 @@ def transcribe_audio():
         gpt_response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": "You are a helpful assistant in a app that writes just that what is asked!"},
                 {"role": "user", "content": prompt}
             ]
         )
